@@ -1,8 +1,7 @@
 # citas
 App de Citas 
-Primero Iniciar con 
-
+Primero Iniciar con :
 npm start
-------------
-Luego arrancar app
+
+Luego arrancar app: 
 npx react-native run-android
