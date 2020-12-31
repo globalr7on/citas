@@ -1,7 +1,15 @@
-import React, { useState } from 'react';
+import React , { useState } from 'react';
+//import { Root, Container, Button, H1, Input, Form, Item, Toast } from 'native-base';
 import { Text, StyleSheet, View, FlatList, TouchableHighlight, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import Cita from './componentes/Cita';
 import Formulario from './componentes/Formulario';
+
+
+//Apollo 
+
+import { gql, useMutation} from '@apollo/client';
+
+
 
 const App = () => {
 
@@ -9,7 +17,7 @@ const App = () => {
 
 
 
-// definir el state de citas
+// definir el state de cita
 const [citas, setCitas] = useState([]);
 
 //Elimina los pacientes del State
@@ -43,6 +51,7 @@ const eliminarPaciente = id => {
           <View style={styles.contenido}>
             { mostrarform ? (
               <>
+              
                 <Text style={styles.titulo}>Crear Nueva Cita </Text>
                 <Formulario 
                   citas={citas}

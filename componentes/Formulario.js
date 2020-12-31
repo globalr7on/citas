@@ -1,7 +1,11 @@
 import React, { createFactory, useState } from 'react';
 import { Text, StyleSheet, View, TextInput, Button, TouchableHighlight, Alert, ScrollView, SegmentedControlIOSBase } from 'react-native';
+//import { Container, Button, Text, H1, Input, Form, Item, Toast } from 'native-base';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import shortid from 'shortid';
+
+import { gql, useMutation} from '@apollo/client';
+
 const Formulario = ({citas,setCitas, guardarMostrarForm}) => {
 
     const [paciente, guardarPaciente] = useState('');
@@ -43,7 +47,20 @@ const Formulario = ({citas,setCitas, guardarMostrarForm}) => {
 
     // Crear nueva Cita
 
-    const crearNuevaCita = () => {
+    const NUEVA_CUENTA = gql` 
+        mutation crearCita($input: CitaInput) {
+            crearCita(input:$input)
+        }
+    `;
+
+    const crearNuevaCita =  async () => {
+
+
+
+        //Mutation de apollo
+        const [ crearCita ] = useMutation(NUEVA_CUENTA);
+
+
         //Validacion
         if(paciente.trim() === '' || 
             propietario.trim() === '' || 
@@ -59,12 +76,38 @@ const Formulario = ({citas,setCitas, guardarMostrarForm}) => {
             }
 
         //Crear una nueva cita
-
+        // Guardar 
+/*
         const cita = { paciente, propietario, telefono, fecha, hora, sintomas };
-        
-        cita.id = shortid.generate(); 
+
+        cita.id = shortid.generate();  
+*/
+        try {
+            const { data } = await crearCita({
+                variables: {
+                    input: {
+                        paciente,
+                        propietario,
+                        telefono,
+                        fecha, 
+                        hora, 
+                        sintomas
+                    }
+                }
+            });
+            console.log(data);
+
+        }catch(error){
+            console.log(error);
+        }
+
+       
+      /*  
         
         //console.log(cita);
+
+        
+
 
         //agregar al state
         const citasNuevo = [...citas, cita];
@@ -75,7 +118,7 @@ const Formulario = ({citas,setCitas, guardarMostrarForm}) => {
 
         //resetear el formulario 
 
-
+*/
     }
 
     // Muestra la alerta si falla la validacio 
@@ -159,6 +202,7 @@ const Formulario = ({citas,setCitas, guardarMostrarForm}) => {
                     <Text style={styles.textoSubmit}> Crear Nueva Cita  </Text>
                 </TouchableHighlight>
             </View>
+
         </ScrollView>
         </>
     );

@@ -1,0 +1,6 @@
+module Pods_citas_citasTests {
+  umbrella header "Pods-citas-citasTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
